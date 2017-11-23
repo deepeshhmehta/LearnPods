@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		221BDE56406B5DF582200BB8 /* Pods_LearnPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B9DF513932C1A2FA9EFAD57 /* Pods_LearnPods.framework */; };
+		79C90A211FC68C9A0030C058 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A1E1FC68C9A0030C058 /* CoreDataStack.swift */; };
+		79C90A221FC68C9A0030C058 /* LearnPodsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A1F1FC68C9A0030C058 /* LearnPodsData.xcdatamodeld */; };
+		79C90A271FC68CDC0030C058 /* USERS+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A231FC68CDC0030C058 /* USERS+CoreDataClass.swift */; };
+		79C90A281FC68CDC0030C058 /* USERS+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A241FC68CDC0030C058 /* USERS+CoreDataProperties.swift */; };
+		79C90A291FC68CDC0030C058 /* UserData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A251FC68CDC0030C058 /* UserData+CoreDataClass.swift */; };
+		79C90A2A1FC68CDC0030C058 /* UserData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C90A261FC68CDC0030C058 /* UserData+CoreDataProperties.swift */; };
 		9BEAAE241EDEF74600404E81 /* SimpleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAAE231EDEF74600404E81 /* SimpleTableView.swift */; };
 		9BEAAE261EDEF8CB00404E81 /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BEAAE251EDEF8CB00404E81 /* SimpleTableViewCell.swift */; };
 		E4017FF11EDC4F2C008FD4C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4017FF01EDC4F2C008FD4C2 /* AppDelegate.swift */; };
@@ -20,6 +26,12 @@
 
 /* Begin PBXFileReference section */
 		3B9DF513932C1A2FA9EFAD57 /* Pods_LearnPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LearnPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79C90A1E1FC68C9A0030C058 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		79C90A201FC68C9A0030C058 /* LearnPodsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LearnPodsData.xcdatamodel; sourceTree = "<group>"; };
+		79C90A231FC68CDC0030C058 /* USERS+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "USERS+CoreDataClass.swift"; sourceTree = "<group>"; };
+		79C90A241FC68CDC0030C058 /* USERS+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "USERS+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		79C90A251FC68CDC0030C058 /* UserData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserData+CoreDataClass.swift"; sourceTree = "<group>"; };
+		79C90A261FC68CDC0030C058 /* UserData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9BEAAE231EDEF74600404E81 /* SimpleTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableView.swift; sourceTree = "<group>"; };
 		9BEAAE251EDEF8CB00404E81 /* SimpleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewCell.swift; sourceTree = "<group>"; };
 		CFF680BE7DC163DAAF9E4557 /* Pods-LearnPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnPods.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LearnPods/Pods-LearnPods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -86,8 +98,14 @@
 		E4017FEF1EDC4F2C008FD4C2 /* LearnPods */ = {
 			isa = PBXGroup;
 			children = (
+				79C90A231FC68CDC0030C058 /* USERS+CoreDataClass.swift */,
+				79C90A241FC68CDC0030C058 /* USERS+CoreDataProperties.swift */,
+				79C90A251FC68CDC0030C058 /* UserData+CoreDataClass.swift */,
+				79C90A261FC68CDC0030C058 /* UserData+CoreDataProperties.swift */,
 				E4017FF01EDC4F2C008FD4C2 /* AppDelegate.swift */,
 				9BEAAE231EDEF74600404E81 /* SimpleTableView.swift */,
+				79C90A1E1FC68C9A0030C058 /* CoreDataStack.swift */,
+				79C90A1F1FC68C9A0030C058 /* LearnPodsData.xcdatamodeld */,
 				9BEAAE251EDEF8CB00404E81 /* SimpleTableViewCell.swift */,
 				E4017FF21EDC4F2C008FD4C2 /* ViewController.swift */,
 				E4017FF41EDC4F2C008FD4C2 /* Main.storyboard */,
@@ -222,9 +240,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C90A2A1FC68CDC0030C058 /* UserData+CoreDataProperties.swift in Sources */,
+				79C90A291FC68CDC0030C058 /* UserData+CoreDataClass.swift in Sources */,
 				E4017FF31EDC4F2C008FD4C2 /* ViewController.swift in Sources */,
 				9BEAAE261EDEF8CB00404E81 /* SimpleTableViewCell.swift in Sources */,
+				79C90A281FC68CDC0030C058 /* USERS+CoreDataProperties.swift in Sources */,
+				79C90A271FC68CDC0030C058 /* USERS+CoreDataClass.swift in Sources */,
 				9BEAAE241EDEF74600404E81 /* SimpleTableView.swift in Sources */,
+				79C90A221FC68C9A0030C058 /* LearnPodsData.xcdatamodeld in Sources */,
+				79C90A211FC68C9A0030C058 /* CoreDataStack.swift in Sources */,
 				E410C9661F13AE2600787C6E /* UserInfo.swift in Sources */,
 				E4017FF11EDC4F2C008FD4C2 /* AppDelegate.swift in Sources */,
 			);
@@ -397,6 +421,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		79C90A1F1FC68C9A0030C058 /* LearnPodsData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				79C90A201FC68C9A0030C058 /* LearnPodsData.xcdatamodel */,
+			);
+			currentVersion = 79C90A201FC68C9A0030C058 /* LearnPodsData.xcdatamodel */;
+			path = LearnPodsData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E4017FE51EDC4F2C008FD4C2 /* Project object */;
 }

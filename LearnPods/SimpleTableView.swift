@@ -12,11 +12,15 @@ import Alamofire
 import SwiftyJSON
 import SVProgressHUD
 import ObjectMapper
+import CoreData
 
 class SimpleTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     var baseTableView : UITableView!
     //var swiftyJsonVar :JSON!
     var userInfoArray: Array<UserInfo> = []
+    @objc var users: Array<USERS> = []
+    @objc var managedContext:NSManagedObjectContext!
+    @objc var fetchRequest: NSFetchRequest<USERS>!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

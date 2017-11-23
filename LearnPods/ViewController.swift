@@ -8,9 +8,12 @@
 
 import UIKit
 import EasyPeasy
+import CoreData
 
 class ViewController: UIViewController {
 
+    @objc var managedContext:NSManagedObjectContext!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

@@ -7,15 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    lazy var coreDataStack = CoreDataStack(modelName: "LearnPodsData")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        guard
+            let navController = window?.rootViewController as? UINavigationController,
+            let viewController = navController.topViewController as? ViewController
+            else {
+                return true
+        }
+        viewController.managedContext = coreDataStack.managedContext
+        
         return true
     }
 
@@ -31,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        coreDataStack.saveContext()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -39,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        coreDataStack.saveContext()
     }
 
 
