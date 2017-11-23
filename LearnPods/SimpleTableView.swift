@@ -21,67 +21,108 @@ class SimpleTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     @objc var users: Array<USERS> = []
     @objc var managedContext:NSManagedObjectContext!
     @objc var fetchRequest: NSFetchRequest<USERS>!
+    @objc var storyboard: UIStoryboard!
+    @objc var navigationController: UINavigationController!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         SVProgressHUD.show(withStatus: "Loading...")
         SVProgressHUD.setDefaultMaskType(.black)
         
-        sendRequest()
     }
+    
+    @objc func setData (managedContext: NSManagedObjectContext,storyboard: UIStoryboard, navigationController: UINavigationController){
+        self.managedContext = managedContext
+        self.storyboard = storyboard
+        self.navigationController = navigationController
+    }
+    
+    @objc func load(){
+        if (checkCoreData()){
+            getData()
+        }else{
+            sendRequest()
+        }
+    }
+    
+    
+    @objc func checkCoreData() -> Bool{
+        guard let model =
+            self.managedContext
+                .persistentStoreCoordinator?.managedObjectModel,
+            let fetchRequest = model
+                .fetchRequestTemplate(forName: "FetchRequestUsers")
+                as? NSFetchRequest<USERS> else {
+                    return false
+        }
+        self.fetchRequest = fetchRequest
+        do{
+            self.users = try managedContext.fetch(self.fetchRequest)
+        }catch let error as NSError{
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        if self.users.count > 0{
+            return true;
+        }
+        else{
+            return false
+            
+        }
+    }
+    
+    @objc func getData(){
+        print("fetch list from coreData");
+        for user in users {
+            userInfoArray.append((UserInfo(user: user))!)
+        }
+        
+        if self.userInfoArray.count > 0 {
+            self.addTableView()
+            SVProgressHUD.dismiss()
+        }
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func sendRequest() {
+    @objc func sendRequest() {
+        print("fetch list from api")
         Alamofire.request("http://eadate.com/api/userInfo")
             .responseJSON { (responseData) -> Void in
-                
-                
                 guard let responseJSON = responseData.result.value as? [String: Any],
                     let results = responseJSON["data"] as? [[String: Any]]
-                     //let userInfoArray1 = Mapper<UserInfo>().mapArray(JSONArray: results )
                     else {
                         return
                 }
                 
-                
                 self.userInfoArray = Mapper<UserInfo>().mapArray(JSONArray: results )
-                
-                
-//                for one in results{
-////                    let displayName = one["displayName"] as? String
-////                    let signature = one["signature"] as? String
-////                    let birthday = one["birthday"] as? String
-////                    let mainImage = one["mainImage"] as? String
-////      
-////                    
-////                    let user = UserInfo(displayName: displayName!,signature: signature!,birthday: birthday!,mainImage: mainImage! )
-////                    
-////                    
-//                    let user2 = Mapper<UserInfo>().map(JSON: one)
-//                    self.userInfoArray.append(user2!)
-//                }
-                
-//                userInfoArray = userInfoArray1
+                self.addUsersToCoreData()
                 if self.userInfoArray.count > 0 {
                     self.addTableView()
                     SVProgressHUD.dismiss()
                 }
-
-                
-//            if((responseData.result.value) != nil) {
-//                
-//                self.userInfoArray = Mapper<UserInfo>().mapArray(JSONArray: responseData.result.value! as! [[String : Any]] )
-//                
-//                if self.userInfoArray.count > 0 {
-//                    self.addTableView()
-//                    SVProgressHUD.dismiss()
-//                }
-//            }
         }
-
+        
+    }
+    
+    @objc func addUsersToCoreData(){
+        for userInfo in userInfoArray {
+            let entity = NSEntityDescription.entity(
+                forEntityName: "USERS",
+                in: managedContext)!
+            let user = USERS(entity: entity,
+                             insertInto: managedContext)
+            
+            //assign values
+            user.displayName = userInfo.displayName
+            user.birthday = userInfo.birthday
+            user.id = userInfo.id
+            user.mainImage = userInfo.mainImage
+            user.signature = userInfo.signature
+        }
+        try! managedContext.save()
     }
     
     func addTableView() {

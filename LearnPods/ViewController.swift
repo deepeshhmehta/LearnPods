@@ -18,6 +18,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         let tableView = SimpleTableView(frame: self.view.frame)
+        tableView.setData(managedContext: managedContext, storyboard: storyboard!, navigationController: navigationController!)
+        
+        tableView.load()
         self.view .addSubview(tableView)
 
     }

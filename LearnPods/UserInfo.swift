@@ -10,17 +10,35 @@ import Foundation
 import ObjectMapper
 
 class UserInfo: Mappable {
+    var id: String?
     var displayName: String?
     var signature: String?
     var birthday: String?
     var mainImage: String?
-
+    
     required init?(displayName: String,signature: String, birthday:String,mainImage:String) {
         self.displayName = displayName
         self.signature = signature
         self.birthday = birthday
         self.mainImage = mainImage
-     
+        
+    }
+    
+    required init?(user: USERS){
+        self.displayName = user.displayName
+        self.signature = user.signature
+        self.birthday = user.birthday
+        self.mainImage = user.mainImage
+        self.id = user.id
+    }
+    
+    required init?(displayName: String,signature: String, birthday:String,mainImage:String,id:String) {
+        self.displayName = displayName
+        self.signature = signature
+        self.birthday = birthday
+        self.mainImage = mainImage
+        self.id = id
+        
     }
     
     required init?(map: Map) {
@@ -29,10 +47,11 @@ class UserInfo: Mappable {
     
     // Mappable
     func mapping(map: Map) {
-        displayName    <- map["displayName"]
-        signature      <- map["signature"]
-        birthday       <- map["birthday"]
-        mainImage      <- map["mainImage"]
+        id <- map["id"]
+        displayName <- map["displayName"]
+        signature <- map["signature"]
+        birthday <- map["birthday"]
+        mainImage <- map["mainImage"]
     }
 }
 
