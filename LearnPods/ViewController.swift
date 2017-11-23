@@ -7,19 +7,23 @@
 //
 
 import UIKit
+import EasyPeasy
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let tableView = SimpleTableView(frame: self.view.frame)
+        self.view .addSubview(tableView)
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
 
-
 }
+
 
