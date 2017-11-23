@@ -55,7 +55,7 @@ class DetailsViewController: UIViewController {
         }else{
             sendRequest()
         }
-        self.loadDataOnScreen()
+        
     }
     
     @objc func checkCoreData() -> Bool{
@@ -97,9 +97,7 @@ class DetailsViewController: UIViewController {
         
         let url = "http://eadate.com/api/userInfo/" + id
         print(url)
-        Alamofire.request(url)
-            .responseJSON { (responseData) -> Void in
-                print("hello")
+        Alamofire.request(url).responseJSON { (responseData) -> Void in
                 guard
                     let responseJSON = responseData.result.value as? [String: Any]
                     else{
@@ -115,8 +113,6 @@ class DetailsViewController: UIViewController {
                 }
 
                 self.userDetails = Mapper<UserDetailsMap>().map(JSONObject: results)
-                print("checking immediately after mapping")
-                dump(self.userDetails)
 //                if self.userInfoArray.count > 0 {
 //                    self.addTableView()
 //                }
@@ -140,6 +136,7 @@ class DetailsViewController: UIViewController {
                     
                 }
                     SVProgressHUD.dismiss()
+                    self.loadDataOnScreen()
                 }
         }
         
@@ -166,11 +163,11 @@ class DetailsViewController: UIViewController {
         
         self.userDetails = Mapper<UserDetailsMap>().map(JSON: DataObj)
         SVProgressHUD.dismiss()
+        self.loadDataOnScreen()
         
     }
     
     func loadDataOnScreen(){
-        dump(self.userDetails)
         guard
             let main = self.userDetails.main
             else{
