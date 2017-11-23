@@ -91,6 +91,7 @@ class SimpleTableView: UIView, UITableViewDataSource, UITableViewDelegate {
         print("fetch list from api")
         Alamofire.request("http://eadate.com/api/userInfo")
             .responseJSON { (responseData) -> Void in
+                print("hello from users fetch")
                 guard let responseJSON = responseData.result.value as? [String: Any],
                     let results = responseJSON["data"] as? [[String: Any]]
                     else {
@@ -164,6 +165,12 @@ class SimpleTableView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let DetailsVC = storyboard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        DetailsVC.idToSearch = userInfoArray[indexPath[1]].id!
+        navigationController.pushViewController(DetailsVC, animated: true)
     }
 
 }
