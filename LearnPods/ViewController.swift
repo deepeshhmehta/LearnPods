@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         tableView.setData(managedContext: managedContext, storyboard: storyboard!, navigationController: navigationController!)
         
         tableView.load()
-        self.view .addSubview(tableView)
+        self.view.addSubview(tableView)
 
     }
 

@@ -41,6 +41,11 @@ class DetailsViewController: UIViewController {
         
         self.alignAndStyle()
         load()
+        
+        let collectionView = SimpleCollectionView(frame: self.view.frame)
+        collectionView.load()
+        self.view.addSubview(collectionView)
+        
     }
     
     func alignAndStyle(){
