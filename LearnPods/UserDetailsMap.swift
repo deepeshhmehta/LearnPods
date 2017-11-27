@@ -13,7 +13,7 @@ class UserDetailsMap: Mappable {
     var id: String?
     var main: [String: Any]!
     var admin: [String: Any]!
-    var statastics: [String: Any]!
+    var statistics: [String: Any]!
     var image: [[String: Any]]!
     var description: [[String: Any]]!
     var basic: [[String: Any]]!
@@ -28,11 +28,11 @@ class UserDetailsMap: Mappable {
         
     }
     
-    required init?(id: String, main: [String: Any], admin: [String: Any], statastics: [String: Any], image: [[String: Any]], description: [[String: Any]], basic: [[String: Any]], match: [[String: Any]], attitude: [[String: Any]], gift: [[String: Any]], tag: [[String: Any]]){
+    required init?(id: String, main: [String: Any], admin: [String: Any], statistics: [String: Any], image: [[String: Any]], description: [[String: Any]], basic: [[String: Any]], match: [[String: Any]], attitude: [[String: Any]], gift: [[String: Any]], tag: [[String: Any]]){
         self.id = id;
         self.main = main;
         self.admin = admin
-        self.statastics = statastics
+        self.statistics = statistics
         self.image = image
         self.description = description
         self.basic = basic
@@ -49,7 +49,7 @@ class UserDetailsMap: Mappable {
             case "id": return self.id as AnyObject
             case "main": return (self.main as AnyObject)
             case "admin": return (self.admin as AnyObject)
-            case "statastics": return (self.statastics as AnyObject)
+            case "statistics": return (self.statistics as AnyObject)
             case "image": return (self.image as AnyObject)
             case "description": return (self.description as AnyObject)
             case "basic": return (self.basic as AnyObject)
@@ -66,7 +66,7 @@ class UserDetailsMap: Mappable {
             case "id": self.id = newValue as? String
             case "main": self.main = newValue as? [String: Any]
             case "admin": self.admin = newValue  as? [String: Any]
-            case "statastics": self.statastics = newValue  as! [String: Any]
+            case "statistics": self.statistics = newValue  as! [String: Any]
             case "image": self.image = newValue as? [[String: Any]]
             case "description": self.description = newValue as! [[String: Any]]
             case "basic": self.basic = newValue as? [[String: Any]]
@@ -86,7 +86,7 @@ class UserDetailsMap: Mappable {
         id <- map["id"]
         main <- map["main"]
         admin <- map["admin"]
-        statastics <- map["statastics"]
+        statistics <- map["statistics"]
         image <- map["image"]
         description <- map["description"]
         basic <- map["basic"]

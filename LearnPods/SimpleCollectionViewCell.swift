@@ -11,58 +11,33 @@ import EasyPeasy
 
 class SimpleCollectionViewCell: UICollectionViewCell {
         
-    static let cellHeight:CGFloat = 120
+    static let cellHeight:CGFloat = 40
+    static let cellWidth:CGFloat = 200
     
-    let mainImageView = UIImageView()
-    let firstLineLabel = UILabel()
-    let secondLineLabel = UILabel()
-    let thirdLineLabel = UILabel()
+    let key = UILabel()
+    let attribute = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        mainImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(mainImageView)
-        mainImageView.clipsToBounds = true
-        mainImageView.layer.cornerRadius = 10
-        mainImageView.layer.borderWidth = 0
-        mainImageView <- [
-            Height(80),
-            Width(80),
-            CenterY(),
+        
+        contentView.addSubview(key)
+        key.text = "AAAAAAAA"
+        key.font = UIFont.systemFont(ofSize: 15)
+        key.textColor = UIColor.black
+        key <- [
+            Top(10),
             Left(10)
         ]
         
-        
-        contentView.addSubview(firstLineLabel)
-        firstLineLabel.text = "AAAAAAAA"
-        firstLineLabel.font = UIFont.systemFont(ofSize: 15)
-        firstLineLabel.textColor = UIColor.black
-        firstLineLabel <- [
-            Top().to(mainImageView, .top),
-            Left(15).to(mainImageView, .right),
-            Right()
+        contentView.addSubview(attribute)
+        attribute.text = "BBBBBBBB"
+        attribute.font = UIFont.systemFont(ofSize: 15)
+        attribute.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        attribute <- [
+            Top().to(key, .top),
+            Left().to(key, .right)
         ]
         
-        contentView.addSubview(secondLineLabel)
-        secondLineLabel.text = "BBBBBBBB"
-        secondLineLabel.font = UIFont.systemFont(ofSize: 15)
-        secondLineLabel.textColor = #colorLiteral(red: 0.506552279, green: 0.5065647364, blue: 0.5065580606, alpha: 1)
-        secondLineLabel <- [
-            Top(10).to(firstLineLabel, .bottom),
-            Left().to(firstLineLabel, .left)
-        ]
-        
-        contentView.addSubview(thirdLineLabel)
-        thirdLineLabel.text = "CCCCCCCCCCCCCCCCCCCCCCCCCCcascascascac"
-        thirdLineLabel.font = UIFont.systemFont(ofSize: 15)
-        thirdLineLabel.textColor = #colorLiteral(red: 0.506552279, green: 0.5065647364, blue: 0.5065580606, alpha: 1)
-        thirdLineLabel.lineBreakMode = .byWordWrapping
-        thirdLineLabel.numberOfLines = 2
-        thirdLineLabel <- [
-            Top(10).to(secondLineLabel, .bottom),
-            Left().to(firstLineLabel, .left),
-            Right(15)
-        ]
         
         
     }

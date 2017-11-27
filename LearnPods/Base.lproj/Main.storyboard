@@ -67,14 +67,21 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95g-i2-I4V">
                                 <rect key="frame" x="16" y="28" width="80" height="80"/>
                             </imageView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6U-LO-o6r">
+                                <rect key="frame" x="16" y="131" width="343" height="516"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="a6U-LO-o6r" firstAttribute="top" secondItem="95g-i2-I4V" secondAttribute="bottom" constant="23" id="AUP-vT-AYl"/>
+                            <constraint firstItem="a6U-LO-o6r" firstAttribute="width" secondItem="y0a-rc-7H3" secondAttribute="width" id="BXX-fl-4My"/>
                             <constraint firstItem="vvs-Fr-I8s" firstAttribute="leading" secondItem="y0a-rc-7H3" secondAttribute="leading" constant="100" id="MAh-6x-t4o"/>
                             <constraint firstItem="3kz-9l-vb1" firstAttribute="leading" secondItem="hLV-iu-80A" secondAttribute="trailing" constant="10" id="QgJ-HT-N13"/>
                             <constraint firstItem="3kz-9l-vb1" firstAttribute="top" secondItem="hLV-iu-80A" secondAttribute="top" id="RiB-eJ-cOT"/>
                             <constraint firstItem="95g-i2-I4V" firstAttribute="top" secondItem="kMv-lw-gW6" secondAttribute="bottom" constant="8" id="UfA-mN-0ED"/>
                             <constraint firstItem="vvs-Fr-I8s" firstAttribute="top" secondItem="95g-i2-I4V" secondAttribute="top" id="X6p-v7-QVh"/>
+                            <constraint firstItem="irG-aR-dJ8" firstAttribute="top" secondItem="a6U-LO-o6r" secondAttribute="bottom" constant="20" id="ZQN-du-fMm"/>
                             <constraint firstItem="hLV-iu-80A" firstAttribute="top" secondItem="vvs-Fr-I8s" secondAttribute="bottom" constant="8" id="ZmB-s5-T8K"/>
                             <constraint firstItem="95g-i2-I4V" firstAttribute="leading" secondItem="y0a-rc-7H3" secondAttribute="leading" constant="10" id="fDc-AV-KcI"/>
                             <constraint firstItem="hLV-iu-80A" firstAttribute="leading" secondItem="vvs-Fr-I8s" secondAttribute="leading" id="hDX-Lf-vdb"/>
@@ -88,6 +95,7 @@
                         <outlet property="genderLabel" destination="3kz-9l-vb1" id="LLH-en-Gmc"/>
                         <outlet property="orientationLabel" destination="hLV-iu-80A" id="bcT-z2-UMo"/>
                         <outlet property="signatureLabel" destination="vvs-Fr-I8s" id="NVk-vt-1Gp"/>
+                        <outlet property="viewForCollection" destination="a6U-LO-o6r" id="QKH-Hs-8cy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rW8-bD-YaQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

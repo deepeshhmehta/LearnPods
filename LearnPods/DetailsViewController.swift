@@ -22,6 +22,7 @@ class DetailsViewController: UIViewController {
     @objc var userDataSections : [String] = []
     @objc var managedContext:NSManagedObjectContext!
     @objc var fetchRequest: NSFetchRequest<UserData>!
+    var dataSet:Bool = false //indicator if data is set
     
     // MARK: - Objects
     
@@ -30,6 +31,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var orientationLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var viewForCollection: UIView!
     
     override func viewDidLoad() {
         self.title = "User Details"
@@ -42,9 +44,8 @@ class DetailsViewController: UIViewController {
         self.alignAndStyle()
         load()
         
-        let collectionView = SimpleCollectionView(frame: self.view.frame)
-        collectionView.load()
-        self.view.addSubview(collectionView)
+       
+//        self.view.addSubview(collectionView)
         
     }
     
@@ -103,46 +104,53 @@ class DetailsViewController: UIViewController {
         let url = "http://eadate.com/api/userInfo/" + id
         print(url)
         Alamofire.request(url).responseJSON { (responseData) -> Void in
-                guard
-                    let responseJSON = responseData.result.value as? [String: Any]
-                    else{
-                        print("responseJSON failed")
-                        return
-                }
+            guard
+                let responseJSON = responseData.result.value as? [String: Any]
+                else{
+                    print("responseJSON failed")
+                    return
+            }
 
-                guard
-                    let results = responseJSON["data"] as? [String: Any]
-                    else {
-                        print("results failed")
-                        return
-                }
+            guard
+                let results = responseJSON["data"] as? [String: Any]
+                else {
+                    print("results failed")
+                    return
+            }
 
-                self.userDetails = Mapper<UserDetailsMap>().map(JSONObject: results)
+            self.userDetails = Mapper<UserDetailsMap>().map(JSONObject: results)
+        
+            //Manipulate Data as Per requirements
+            self.userDetails.main["gender"] = self.userDetails.main["gender"] as! Int == 0 ? "Female": "Male"
+            self.userDetails.main["sexualOrientation"] = self.userDetails.main["sexualOrientation"] as! Int == 1 ? "Straight": "Gay"
+            
+            self.dataSet = true
 //                if self.userInfoArray.count > 0 {
 //                    self.addTableView()
 //                }
                 
-                //add to core data
-                for (title,_) in (responseJSON["data"] as? [String: Any])!{
-                    if (title == "option"){}
-                    else{
-                        self.userDataSections.append(title)
-                        let rawData = self.userDetails[title]
-                        let binData = NSKeyedArchiver.archivedData(withRootObject: rawData) as NSData
-                        
-                        let entity = NSEntityDescription.entity(forEntityName: "UserData",in: self.managedContext)!
-                        let userData = UserData(entity: entity,insertInto: self.managedContext)
-                        
-                        //assign values
-                        userData.userid = id
-                        userData.title = title
-                        userData.data = binData
-                        try! self.managedContext.save()
+            //add to core data
+            for (title,_) in (responseJSON["data"] as? [String: Any])!{
+                if (title == "option"){}
+                else{
+                    self.userDataSections.append(title)
+                    let rawData = self.userDetails[title]
+                    let binData = NSKeyedArchiver.archivedData(withRootObject: rawData) as NSData
+                    
+                    let entity = NSEntityDescription.entity(forEntityName: "UserData",in: self.managedContext)!
+                    let userData = UserData(entity: entity,insertInto: self.managedContext)
+                    
+                    //assign values
+                    userData.userid = id
+                    userData.title = title
+                    userData.data = binData
+                    try! self.managedContext.save()
                     
                 }
-                    SVProgressHUD.dismiss()
-                    self.loadDataOnScreen()
-                }
+                
+            }
+            SVProgressHUD.dismiss()
+            self.loadScreen()
         }
         
     }
@@ -167,9 +175,17 @@ class DetailsViewController: UIViewController {
         }
         
         self.userDetails = Mapper<UserDetailsMap>().map(JSON: DataObj)
+        self.dataSet = true
         SVProgressHUD.dismiss()
-        self.loadDataOnScreen()
+        self.loadScreen()
         
+    }
+    
+    func loadScreen(){
+        self.loadDataOnScreen()
+        let collectionView = SimpleCollectionView(frame: self.view.frame)
+        collectionView.load(userDetails: self.userDetails)
+        self.viewForCollection.addSubview(collectionView)
     }
     
     func loadDataOnScreen(){
@@ -188,20 +204,15 @@ class DetailsViewController: UIViewController {
                     let url = URL(string: mainImageUrl)
                     self.displayImage.kf.setImage(with: url, completionHandler: nil)
             case "signature": self.signatureLabel.text = value as? String
-            case "sexualOrientation":
-                let val = value as? Int == 1 ? "Straight" : "Gay"
-                self.orientationLabel.text = val
-            case "gender":
-                let val = value as? Int == 0 ? "Female" : "Male"
-                self.genderLabel.text = val
+            case "sexualOrientation": self.orientationLabel.text = value as? String
+            case "gender": self.genderLabel.text = value as? String
             case "city" :
                 guard
-                    var text = self.cityLabel.text,
                     let val = value as? String
                 else{
                     continue
                 }
-                text = text + val
+                let text = "from " + val
                 self.cityLabel.text = text
                 
             default: continue
