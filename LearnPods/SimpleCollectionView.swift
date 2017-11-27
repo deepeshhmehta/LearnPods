@@ -11,7 +11,7 @@ import UIKit
 class SimpleCollectionView: UIView {
     var baseCollectionView: UICollectionView!
     var userDetails: UserDetailsMap!
-    var dataTitles = ["main","statistics","description","basic","match","attitude"]
+    var dataTitles = ["main","statistics","description","basic","match","attitude","gift"]
     var simpleStruct = ["main","statistics"]
     var doubleStruct = ["description","basic","match","attitude"]
     
@@ -33,6 +33,7 @@ class SimpleCollectionView: UIView {
         self.baseCollectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         self.baseCollectionView.delegate = self
         self.baseCollectionView.dataSource = self
+        self.baseCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         self.baseCollectionView.register(SimpleCollectionViewCell.self, forCellWithReuseIdentifier: "SimpleCollectionViewCell")
         self.baseCollectionView.register(HeaderCollectionViewCell.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
 //        self.baseCollectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: "Header")
@@ -108,6 +109,31 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
 //            cell.key.text = keys[indexPath.row]
 //            cell.attribute.text = values[indexPath.row]
             return cell
+        }else if (dataTitles[indexPath.section] == "gift"){
+            guard
+                let data2 = data as? [[String:String]]
+                else{
+                    print(dataTitles[indexPath.section])
+                    print(indexPath.row)
+                    return cell
+            }
+            let array = (data2).map(){$0}
+            //            dump(array)
+            
+            let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+            var imageView = UIImageView()
+            for (key,value) in array[indexPath.row]{
+                switch(key){
+                case "imageUrl":
+                    imageView = UIImageView(image: UIImage(named: value))
+                default: break
+                }
+            }
+            
+            
+            imageCell.contentView.addSubview(imageView)
+            
+            return imageCell
         }else{
             return cell
         }
@@ -128,6 +154,17 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
         default:
             //4
             assert(false, "Unexpected element kind")
+        }
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        if(dataTitles[indexPath.section] == "main"){
+            print("entered custom size")
+            return CGSize(width: self.frame.size.width/2, height: 100)
+            
+        }else{
+            return CGSize(width: self.frame.size.width - 20, height: 40)
         }
     }
     
