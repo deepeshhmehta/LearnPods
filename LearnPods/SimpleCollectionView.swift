@@ -11,9 +11,10 @@ import UIKit
 class SimpleCollectionView: UIView {
     var baseCollectionView: UICollectionView!
     var userDetails: UserDetailsMap!
-    var dataTitles = ["main","statistics","description","basic","match","attitude","gift"]
+    var dataTitles = ["main","statistics","description","basic","match","attitude","gift","image"]
     var simpleStruct = ["main","statistics"]
-    var doubleStruct = ["description","basic","match","attitude"]
+    var doubleStruct = ["description","basic","match"]
+    var imageStruct = ["image","gift"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,14 +36,19 @@ class SimpleCollectionView: UIView {
         self.baseCollectionView.dataSource = self
         self.baseCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         self.baseCollectionView.register(SimpleCollectionViewCell.self, forCellWithReuseIdentifier: "SimpleCollectionViewCell")
+        self.baseCollectionView.register(ImageViewCollectionViewCell.self, forCellWithReuseIdentifier: "ImageViewCollectionViewCell")
         self.baseCollectionView.register(HeaderCollectionViewCell.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
 //        self.baseCollectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: "Header")
         self.baseCollectionView.backgroundColor = UIColor.clear
-        self.addSubview(self.baseCollectionView)
+        
+        let scrollView = UIScrollView(frame: self.frame)
+        scrollView.contentSize = CGSize(width: self.frame.size.width, height: self.frame.size.height * 4)
+        scrollView.addSubview(self.baseCollectionView)
+        self.addSubview(scrollView)
     }
 }
 
-extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDelegate{
+extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataTitles.count
     }
@@ -90,8 +96,8 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
             guard
             let data2 = data as? [[String:String]]
             else{
-                print(dataTitles[indexPath.section])
-                print(indexPath.row)
+//                print(dataTitles[indexPath.section])
+//                print(indexPath.row)
                 return cell
             }
             
@@ -109,7 +115,29 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
 //            cell.key.text = keys[indexPath.row]
 //            cell.attribute.text = values[indexPath.row]
             return cell
-        }else if (dataTitles[indexPath.section] == "gift"){
+        }else if dataTitles[indexPath.section] == "attitude"{
+            guard
+                let data2 = data as? [[String:Int32]]
+                else{
+//                    print(dataTitles[indexPath.section])
+//                    print(indexPath.row)
+                    return cell
+            }
+            
+            let array = (data2).map(){$0}
+            //            dump(array)
+            
+            for (key,value) in array[indexPath.row]{
+                switch(key){
+                case "title": cell.key.text = String(value) + " : "
+                case "content": cell.attribute.text = String(value)
+                default: break
+                }
+            }
+            return cell
+        }
+        else if imageStruct.contains(dataTitles[indexPath.section]){
+//            print("gift")
             guard
                 let data2 = data as? [[String:String]]
                 else{
@@ -120,20 +148,29 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
             let array = (data2).map(){$0}
             //            dump(array)
             
-            let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-            var imageView = UIImageView()
+            let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageViewCollectionViewCell", for: indexPath) as? ImageViewCollectionViewCell
+            var url:URL!
             for (key,value) in array[indexPath.row]{
                 switch(key){
                 case "imageUrl":
-                    imageView = UIImageView(image: UIImage(named: value))
+                    var mainImageUrl:String!
+                    if(dataTitles[indexPath.row] == "gift"){
+                         mainImageUrl = "http://eadate.com/images/gift/" + value
+                        
+                    }else{
+                         mainImageUrl = "http://eadate.com/images/user/" + value
+                    }
+                    print(mainImageUrl)
+                    url = URL(string: mainImageUrl)
                 default: break
                 }
             }
             
             
-            imageCell.contentView.addSubview(imageView)
             
-            return imageCell
+            imageCell?.mainImageView.kf.setImage(with: url, completionHandler: nil)
+            
+            return imageCell!
         }else{
             return cell
         }
@@ -157,11 +194,12 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
         }
     }
     
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if(dataTitles[indexPath.section] == "main"){
-            print("entered custom size")
-            return CGSize(width: self.frame.size.width/2, height: 100)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("entered custom size")
+        if imageStruct.contains(dataTitles[indexPath.section]){
+            return CGSize(width: 50, height: 50)
             
         }else{
             return CGSize(width: self.frame.size.width - 20, height: 40)
