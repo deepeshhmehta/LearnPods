@@ -197,7 +197,7 @@ extension SimpleCollectionView: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("entered custom size")
+//        print("entered custom size")
         if imageStruct.contains(dataTitles[indexPath.section]){
             return CGSize(width: 50, height: 50)
             
